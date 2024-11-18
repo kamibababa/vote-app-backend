@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC ".//mybaits.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.UsersMapper">
+    <insert id="vote">
+        insert into candidate_userinfo_tab(user_id,candidate_id) values(#{current_userid},#{cid})
+    </insert>
+    <select id="loginUser" parameterType="usersEntity" resultType="usersEntity">
+        select * from userinfo where name = #{name} and password = #{password}
+    </select>
+    <select id="getUserById" resultType="UsersEntity">
+        select * from userinfo where id = #{uid}
+    </select>
+    <select id="isVote" resultType="java.lang.Integer">
+        select count(1) from candidate_userinfo_tab where user_id = #{current_userid}
+    </select>
+    <select id="getVotes" resultType="org.example.entity.VoteEntity">
+        select candidate.name, tmptab.votecount from candidate join
+        (select candidate_id, count(1) as votecount from candidate_userinfo_tab
+        GROUP BY candidate_id) tmptab on candidate.id = tmptab.candidate_id
+    </select>
+    <select id="getCandidates" resultType="org.example.entity.CandidateEntity">
+        select * from candidate
+    </select>
+</mapper>

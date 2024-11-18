@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3307/vote?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false
+    type: com.zaxxer.hikari.HikariDataSource
+mybatis-plus:
+  type-aliases-package: org.example.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  global-config:
+    # 全局配置
+    db-config:
+      # 数据库配置
+      id-type: auto
+
+application:
+  security:
+    jwt:
+      expiration: 3000000
+      secret-key: XNGpES2W4Miuldtn8gFIkfyfgKXDv0m7OIPDNE9BdhpUWd0c755zkr0gR4NgJWuB
+  white-list:
+    pass_url:
+      - /api/articles/**
+      - /login
+      - /hello
