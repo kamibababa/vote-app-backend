@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.entity.CandidateEntity;
 import org.example.entity.UsersEntity;
+import org.example.entity.UsersVo;
 import org.example.entity.VoteEntity;
 import org.example.mapper.UsersMapper;
 import org.example.response.ApiResponse;
@@ -10,11 +11,10 @@ import org.example.utils.UserUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 @RestController
-public class HelloController {
+public class VoteController {
     @Resource
     UsersMapper usersMapper;
     @Resource
@@ -37,15 +37,17 @@ public class HelloController {
             return ApiResponse.success(200,"投票成功");
         }
         else{
-            return ApiResponse.error(1000,"已经投过票");
+            return ApiResponse.error(1000,"您已经投过票");
         }
     }
     @PostMapping("/login")
-    public ApiResponse<String> loginUser(@RequestBody UsersEntity usersInfo) throws Exception {
+    public ApiResponse<UsersVo> loginUser(@RequestBody UsersEntity usersInfo) throws Exception {
         UsersEntity usersEntity = usersMapper.loginUser(usersInfo);
         if(usersEntity != null){
             String token = jwtService.toToken(usersEntity);
-            return ApiResponse.success(token);
+            UsersVo usersVo = new UsersVo(usersEntity.getId()
+                    , usersEntity.getName(), token);
+            return ApiResponse.success(usersVo);
         }
         else{
             throw new Exception("login failed");

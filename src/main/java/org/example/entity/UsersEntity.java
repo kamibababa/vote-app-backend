@@ -1,22 +1,27 @@
 package org.example.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @TableName("userinfo")
 public class UsersEntity {
     /** 版本号 */
     private static final long serialVersionUID = -61540348507379010L;
 
-
+    @JsonIgnore
     /**  */
     private Long id;
     
     /**  */
     private String name;
-    
     /**  */
     private String password;
 
-    
+    public UsersEntity(Long id, String name, String password) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+    }
+
     /**
      * 获取
      * 
